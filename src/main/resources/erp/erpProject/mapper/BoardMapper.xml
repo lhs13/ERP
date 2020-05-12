@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erp.erpProject.mapper.BoardMapper">
+
+	<sql id="search">
+	  	<if test="type == ''">
+	  	 from notice
+	  	</if>
+	  	<if test="type != ''">
+	  	from notice as no join employee as em on no.writer = em.emp_id where em.emp_dir = #{type} 
+	  	</if>
+  	</sql>
+
+	<select id="NoticeList" resultType="erp.erpProject.model.NoticeVO">
+	select
+	bno, title,department, content,writer,created,updatedate ,replycnt
+	<include refid="search"></include>
+	order by 1 desc
+	limit #{pageNum} , #{amount}
+	</select>
+	
+	<select id="getNotice" resultType="erp.erpProject.model.NoticeVO">
+	select * from notice where bno = #{bno}
+	</select>
+	
+	<insert id="createdNotice">
+	insert into notice(title,content,writer,department) values (#{title},#{content},#{writer},#{department})
+	</insert>
+	
+	<update id="updateNotice">
+	update notice set title = #{title} , content = #{content} , updatedate = #{updatedate}  where bno = #{bno}
+	</update>
+	
+	<delete id="delNotice">
+	delete from notice where #{bno} = #{bno}
+	</delete>
+	
+	<select id="getTotalCount" resultType="Integer">
+	select count(*) <include refid="search"></include>
+	</select>
+	
+	<update id="increaseReply">
+	update notice set replycnt = replycnt+1 where bno = #{bno}
+	</update>
+	
+	<select id="checkNotice" resultType="Integer">
+	select count(*) from notice_check where emp_id = #{emp_id} and bno = #{bno}
+	</select>
+	
+	<insert id="checkInsertNotice">
+	insert into notice_check values(#{bno},#{emp_id})
+	</insert>
+	
+	<select id="checkList" resultType="erp.erpProject.model.CheckNoticeVO">
+		select * from notice_check
+	</select>
+	
+	<select id="reNotice" resultType="erp.erpProject.model.NoticeVO">
+		select * from notice order by 1 desc limit 0,1
+	</select>
+</mapper>

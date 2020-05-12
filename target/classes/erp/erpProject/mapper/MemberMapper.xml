@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erp.erpProject.mapper.MemberMapper">
+
+	<resultMap type="erp.erpProject.model.MemberVO" id="mMap">
+		<id property="emp_num" column="emp_num"/>
+		<result property="emp_id" column="emp_id"/>
+		<result property="emp_num" column="emp_num"/>
+		<result property="emp_pass" column="emp_pass"/>
+		<result property="emp_name" column="emp_name"/>
+		<result property="emp_addr" column="emp_addr"/>
+		<result property="emp_tel" column="emp_tel"/>
+		<result property="emp_dir" column="emp_dir"/>
+		<result property="emp_grade" column="emp_grade"/>
+	</resultMap>
+	
+	<insert id="memInsert" parameterType="erp.erpProject.model.MemberVO">
+		insert into employee(emp_name, emp_addr, emp_tel, emp_dir, emp_id, emp_pass, emp_grade) 
+		values(#{emp_name}, #{emp_addr}, #{emp_tel}, #{emp_dir}, #{emp_id}, #{emp_pass}, #{emp_grade})
+	</insert>
+	
+	<!-- 아이디 중복체크 -->
+	<select id="IDcheck" resultType="int">
+		select count(*) from employee where emp_id=#{checkedID}
+	</select>
+	
+	<delete id="memDel">
+		delete from empolyee where emp_num=#{emp_num}
+	</delete>
+	
+	<select id="memModify">
+		update employee set emp_addr=#{emp_addr}, emp_tel=#{emp_tel}, emp_dir=#{emp_dir}, emp_grade=#{emp_grade}, emp_name=#{emp_name} 
+		where emp_num=#{emp_num}
+	</select>
+	
+	<select id="memList" resultType="erp.erpProject.model.MemberVO">
+		select * from employee order by 1 desc limit #{pageNum}, #{amount}
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(*) from employee
+	</select> 
+	
+	<select id="memGet" resultType="erp.erpProject.model.MemberVO">
+		select * from employee where emp_id = #{emp_id}
+	</select>
+	
+	<select id="perNum" resultType="int">
+      select emp_num from employee where emp_id = #{emp_id}
+   </select>
+   
+   <insert id="mem_perInsert" parameterType="erp.erpProject.model.MemberVO">
+      insert into personnel(emp_num, emp_dir, emp_grade, emp_name) values(#{emp_num}, #{emp_dir}, #{emp_grade}, #{emp_name})
+   </insert>
+	
+	
+	<select id="dirList" resultType="erp.erpProject.model.MemberVO">
+		select * from employee where emp_dir = #{emp_dir}
+	</select>
+	
+	<insert id="disInsert">
+		insert into dispatch(emp_num) values(#{emp_num})
+	</insert>
+	
+	
+</mapper>

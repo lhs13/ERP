@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="erp.erpProject.mapper.ReplyMapper">
+  
+  <insert id="insert">
+	  insert into notice_reply (bno,reply,replyer)
+ 	 values (#{bno},#{reply},#{replyer})
+  </insert>
+  
+  <select id="read" resultType="erp.erpProject.model.ReplyVO">
+ 	 select * from notice_reply where rno = #{rno}
+  </select>
+  
+  <delete id="delete">
+ 	 delete from notice_reply where rno = #{rno}
+  </delete>
+  
+  <update id="update">
+  	update notice_reply set reply = #{reply} , updatedate = sysdate where rno = #{rno}
+  </update>
+  
+  <select id="getListWithPaging" resultType="erp.erpProject.model.ReplyVO">
+	  select rno, bno, reply , replyer,replydate,updatedate
+	  from notice_reply
+	  where bno = #{bno}
+	  limit #{cri.pageNum} , #{cri.amount}
+  </select>
+  
+  <select id="getCountByBno" resultType="int">
+  	select count(rno) from notice_reply where bno = #{bno}
+  </select>
+  
+  
+  </mapper>

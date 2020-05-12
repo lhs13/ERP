@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erp.erpProject.mapper.PersonMapper">
+
+<select id="personDetail" resultType="erp.erpProject.model.PersonVO">
+	select * from personnel where emp_num=#{emp_num}
+</select>
+
+<update id="personUP">
+	update personnel set emp_name=#{emp_name}, emp_dir=#{emp_dir}, per_pos=#{per_pos}, per_sal=#{per_sal}, per_day=#{per_day}, per_reg=#{per_reg}, per_acc=#{per_acc}, 
+	emp_grade=#{emp_grade}, per_fileName=#{per_fileName} where emp_num=#{emp_num}
+</update>
+
+<select id="pList" resultType="erp.erpProject.model.PersonVO">
+	select * from personnel
+</select>
+
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erp.erpProject.mapper.ClientMapper">
+<select id="list" resultType="erp.erpProject.model.ClientVO">
+   select * from client 
+   order by cnum desc
+   limit #{pageNum},#{amount}
+</select>
+
+<select id="get" resultType="erp.erpProject.model.ClientVO">
+   select * from client where cnum = #{cnum}
+</select>
+
+<insert id="insert">
+   insert into client(cname,cfield,scale,price) values (#{cname},#{cfield},#{scale},#{price})
+</insert>
+
+<select id="getTotal">
+   select count(*) from client where cnum > 0
+</select>
+
+<select id="memList" resultType="erp.erpProject.model.MemberVO">
+   select * from employee as em join  dispatch as dis on em.emp_num = dis.emp_num where dis.cnum is null or dis.cnum = 0
+</select>
+
+<update id="update">
+   update client set cname = #{cname}, price = #{price}, cfield = #{cfield}, emp_num = #{emp_num} where cnum =#{cnum}
+</update>
+
+<update id="disUpdate">
+   update dispatch set dis_field = #{dis_field} , dis_day = #{dis_day}, dis_reg = #{dis_reg} ,cnum = #{cnum} where emp_num = #{emp_num}
+</update>
+<update id="disReset">
+   update dispatch set dis_field = '' , dis_day = '', dis_reg = '',cnum = 0 where emp_num = #{emp_num}
+</update>
+<select id="disList" resultType="erp.erpProject.model.DispatchVO">
+   select emp_num from dispatch
+</select>
+</mapper>
